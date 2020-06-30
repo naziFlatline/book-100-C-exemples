@@ -14,9 +14,9 @@
 #define NB_DISABLE 0
 #define NB_ENABLE 1
 
-#define Sleep(x) usleep(x*1000)
+#define Sleep(x) usleep(x*100)
 
-int kbhit()
+int kbhit() //https://www.mkssoftware.com/docs/man3/select.3.asp
 {
 	struct timeval tv;
 	fd_set fds;
@@ -53,7 +53,7 @@ int getch()
 #endif
 
 int snake_size, change_x,change_y, coordinates_x[1000], coordinates_y[1000];
-int food_x =1,food_y =-1;
+int food_x =-1,food_y =-1;
 
 char symbol,a[1000][1000];
 const int N=13,M=17,INTERVAL=200;
@@ -89,6 +89,7 @@ void change_direction()
 #endif
 		default: break;
 	}
+	symbol = '\n';
 }
 
 
@@ -101,8 +102,8 @@ void show_table()
 	system("clear");
 #endif
 
-	for(int  i=0; i<=N+1; i++)
-		for(int j=0; j<=M+1; j++)
+	for(int  i=0; i<=N+1; ++i)
+		for(int j=0; j<=M+1; ++j)
 			std::cout
 			<< (i == 0 || j ==0 || i == N+1 || j == M+1 ? '#' : a[i][j])
 			<< (j <= M ? "" : "\n");
@@ -219,7 +220,7 @@ void place_food()
 
 void standart_settings()
 {
-	snake_size = 2;
+	snake_size = 10;
 
 	coordinates_x[1] = 1;
 	coordinates_y[1] = 2;
@@ -240,6 +241,7 @@ int main()
 #endif
 	while(true)
 	{
+		
 		if(kbhit() != 0)
 			change_direction();
 
